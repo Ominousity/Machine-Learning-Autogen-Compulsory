@@ -1,1 +1,2 @@
 autogen
+autogen-agentchat[mistral]~=0.2

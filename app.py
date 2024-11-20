@@ -4,8 +4,9 @@ config_list = [
     {
         "model": "open-mistral-nemo",
         "api_key": "",
+        "api_type": "mistral",
         "max_tokens": 100,
-        "base_url": "https://api.mistral.ai/v1",
+        "api_rate_limit": 5,
     }
 ]
 
@@ -30,13 +31,13 @@ assistant2 = autogen.AssistantAgent(
 user_proxy = autogen.UserProxyAgent(
     name="user_proxy",
     human_input_mode="TERMINATE",
-    max_consecutive_auto_reply=1,
+    max_consecutive_auto_reply=2,
     is_termination_msg=lambda x: x.get("content", "").rstrip().endswith("TERMINATE"),
     code_execution_config={"work_dir": "web", "use_docker": True},
     llm_config=llm_config,
     system_message="REPLY TERMINATE IF THE TASK HAS BEEN SOLED AT FULL SATISFACTION.",
 )
 
-task = "make a function to add two numbers together"
+task = "Write a Python function that takes a list of numbers and returns the average of the numbers."
 
 user_proxy.initiate_chat(assistant, assistant2, message=task)
