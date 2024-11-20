@@ -19,13 +19,7 @@ llm_config = {
 assistant = autogen.AssistantAgent(
     name="Developer",
     llm_config=llm_config,
-    system_message="REPLY TERMINATE IF THE TASK HAS BEEN SOLED AT FULL SATISFACTION. You are the one responsible for coding the actual task",
-)
-
-assistant2 = autogen.AssistantAgent(
-    name="Tester",
-    llm_config=llm_config,
-    system_message="REPLY TERMINATE IF THE TASK HAS BEEN SOLED AT FULL SATISFACTION. You are the one responsible for testing the code before showing it to the user",
+    system_message="REPLY TERMINATE IF THE TASK HAS BEEN SOLVED AT FULL SATISFACTION. You are the one responsible for coding the actual task",
 )
 
 user_proxy = autogen.UserProxyAgent(
@@ -35,9 +29,9 @@ user_proxy = autogen.UserProxyAgent(
     is_termination_msg=lambda x: x.get("content", "").rstrip().endswith("TERMINATE"),
     code_execution_config={"work_dir": "web", "use_docker": True},
     llm_config=llm_config,
-    system_message="REPLY TERMINATE IF THE TASK HAS BEEN SOLED AT FULL SATISFACTION.",
+    system_message="REPLY TERMINATE IF THE TASK HAS BEEN SOLVED AT FULL SATISFACTION.",
 )
 
 task = "Write a Python function that takes a list of numbers and returns the average of the numbers."
 
-user_proxy.initiate_chat(assistant, assistant2, message=task)
+user_proxy.initiate_chat(assistant, message=task)
